@@ -1,0 +1,19 @@
+{
+  "name": "kr222if-ym222bs-2dv515-assignment4",
+  "version": "1.0.0",
+  "description": "web intelligence",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MosaKasem/kr222if-ym222bs-2dv515-assignment4.git"
+  },
+  "author": "Mosa and Yasmin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MosaKasem/kr222if-ym222bs-2dv515-assignment4/issues"
+  },
+  "homepage": "https://github.com/MosaKasem/kr222if-ym222bs-2dv515-assignment4#readme"
+}
