@@ -4,6 +4,7 @@ const bodyParse = require('body-parser')
 
 const PORT = process.env.PORT || 8000
 const app = express().use(bodyParse.json())
+const test = require('./algorithm/NaiveBayesAlgo')
 
 /**
  * Temporary route
