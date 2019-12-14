@@ -9,7 +9,8 @@ const parseCVStoJSO = (fileName) => {
             .pipe(csv({headers: false}))
             .on('data', (data) => result.push(data))
             .on('end', () => {
-                const jsonfiy = JSON.stringify(result)
+                const convert = result.map(e => convertToNumber(e))
+                const jsonfiy = JSON.stringify(convert)
                 fs.writeFile(fileName + '.json', jsonfiy, 'utf8', (err) => {
                     if (err) throw err
                     console.log('Json completely exported')
@@ -19,3 +20,13 @@ const parseCVStoJSO = (fileName) => {
 arrOfArgs.forEach(filename => {
     parseCVStoJSO(filename)
 })
+
+const convertToNumber = (anObject) => {
+    for (const key in anObject) {
+        const objectValue = anObject[key];
+        if (!isNaN(Number(objectValue))) {
+            anObject[key] = Number(objectValue)
+        }
+    }
+    return anObject
+}

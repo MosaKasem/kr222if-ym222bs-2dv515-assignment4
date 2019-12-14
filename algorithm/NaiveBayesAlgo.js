@@ -25,21 +25,25 @@ const summarize = (file, id) => {
     })
 
 }
-let b = 0
 const sum = (flower) => {
     let sum = 0;
-    Object.keys(flower).reduce((sum, key) => {
-        // console.log('flower[key]: ', flower[key])
-        // console.log('flower[key]: ', typeof Number(flower[key]))
-        if (Number(flower[key])) {
-            sum += Number(flower[key])
-            // console.log('Number(flower[key]): ', Number(flower[key]));
-            
-        }
+    let total = Object.values(flower).reduce((sum, key) => {
+        console.log('sum: ', sum);
+        console.log('Number(flower[key]): ', Number(key));
+        // if (!isNaN(Number(flower[key]))) {
+        //     let currentValue = Number(flower[key])
+        //     sum += currentValue
+        // }
     }, 0)
-    b++
-    // console.log(b);
-    
 }
+// const sum = (flower) => {
+//     let sum = 0;
+//     Object.keys(flower).reduce((sum, key) => {
+//         if (!isNaN(Number(flower[key]))) {
+//             let currentValue = Number(flower[key])
+//             sum += currentValue
+//         }
+//     }, 0)
+// }
 
 summarize(iris, '4')
