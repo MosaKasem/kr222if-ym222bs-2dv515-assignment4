@@ -22,6 +22,8 @@ const summarize = (file, id) => {
         console.log('flowerType: ', flowerType[0][4]);
         console.log('flowerType: ', flowerType.length);
         const avg = mean(flowerType)
+        console.log('avg: ', avg);
+        // console.log(avg)
     }))
 }
 
@@ -29,14 +31,15 @@ const mean = (objectSet) => {
     let sum = []
     let total = 0
     for (let i = 0; i < 4; i++) {
-        console.log('iterating index: ', i)
         Object.keys(objectSet).forEach(key => {
             total += objectSet[key][i]
         })
-        sum.push({objectSet: objectSet[0][4], index: i, total: total/objectSet.length})
+        console.log('result for index ', i, ': ', total/objectSet.length)
+        // sum.push({objectSet: objectSet[0][4], index: i, total: total/objectSet.length})
+        sum.push(total/objectSet.length)
         total = 0
     }
-    console.log(sum)
+    return sum
 }
 
 summarize(iris, '4')
