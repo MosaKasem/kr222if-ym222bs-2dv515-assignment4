@@ -26,27 +26,17 @@ const summarize = (file, id) => {
 }
 
 const mean = (objectSet) => {
-    Object.keys(objectSet).forEach(key => {
-        console.log(objectSet[key])
-    })
-    // console.log(typeof objectSet)
-    // let total = Object.values(objectSet).reduce((sum, key) => {
-        // console.log('sum: ', sum);
-        // console.log('Number(objectSet[key]): ', Number(key));
-        // if (!isNaN(Number(objectSet[key]))) {
-        //     let currentValue = Number(objectSet[key])
-        //     sum += currentValue
-        // }
-    // }, 0)
+    let sum = []
+    let total = 0
+    for (let i = 0; i < 4; i++) {
+        console.log('iterating index: ', i)
+        Object.keys(objectSet).forEach(key => {
+            total += objectSet[key][i]
+        })
+        sum.push({objectSet: objectSet[0][4], index: i, total: total/objectSet.length})
+        total = 0
+    }
+    console.log(sum)
 }
-// const sum = (flower) => {
-//     let sum = 0;
-//     Object.keys(flower).reduce((sum, key) => {
-//         if (!isNaN(Number(flower[key]))) {
-//             let currentValue = Number(flower[key])
-//             sum += currentValue
-//         }
-//     }, 0)
-// }
 
 summarize(iris, '4')
