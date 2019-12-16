@@ -18,23 +18,26 @@ const seperateByClass = (dataSet ,keyValue) => {
 
 const summarize = (file, id) => {
     const sorted = seperateByClass(file, id)
-    sorted.forEach(flowerSet => {
-        flowerSet.map((flower, i) => {
-            sum(flower)
-        })
-    })
-
+    sorted.forEach((flowerType => {
+        console.log('flowerType: ', flowerType[0][4]);
+        console.log('flowerType: ', flowerType.length);
+        const avg = mean(flowerType)
+    }))
 }
-const sum = (flower) => {
-    let sum = 0;
-    let total = Object.values(flower).reduce((sum, key) => {
-        console.log('sum: ', sum);
-        console.log('Number(flower[key]): ', Number(key));
-        // if (!isNaN(Number(flower[key]))) {
-        //     let currentValue = Number(flower[key])
+
+const mean = (objectSet) => {
+    Object.keys(objectSet).forEach(key => {
+        console.log(objectSet[key])
+    })
+    // console.log(typeof objectSet)
+    // let total = Object.values(objectSet).reduce((sum, key) => {
+        // console.log('sum: ', sum);
+        // console.log('Number(objectSet[key]): ', Number(key));
+        // if (!isNaN(Number(objectSet[key]))) {
+        //     let currentValue = Number(objectSet[key])
         //     sum += currentValue
         // }
-    }, 0)
+    // }, 0)
 }
 // const sum = (flower) => {
 //     let sum = 0;
