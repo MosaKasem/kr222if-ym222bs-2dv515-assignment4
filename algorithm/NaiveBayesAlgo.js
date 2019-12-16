@@ -16,16 +16,27 @@ const seperateByClass = (dataSet ,keyValue) => {
     return sorted
 }
 
+/**
+ * 
+ * @param {json file} file 
+ * @param {} id 
+ */
 const summarize = (file, id) => {
     const sorted = seperateByClass(file, id)
+    const arrayOfMeansValue = []
     sorted.forEach((flowerType => {
-        console.log('flowerType: ', flowerType[0][4]);
-        console.log('flowerType: ', flowerType.length);
-        const avg = mean(flowerType)
-        console.log('avg: ', avg);
-        // console.log(avg)
+        const currentFlowerType = flowerType[0][4]
+        
+        console.log('Flower Type: ', currentFlowerType);
+        console.log('Flower Set Length: ', flowerType.length);
+
+        const meanResult = mean(flowerType)
+        arrayOfMeansValue.push({[currentFlowerType]: meanResult})
     }))
+    return arrayOfMeansValue
 }
+
+// const stdev()
 
 const mean = (objectSet) => {
     let sum = []
@@ -35,7 +46,6 @@ const mean = (objectSet) => {
             total += objectSet[key][i]
         })
         console.log('result for index ', i, ': ', total/objectSet.length)
-        // sum.push({objectSet: objectSet[0][4], index: i, total: total/objectSet.length})
         sum.push(total/objectSet.length)
         total = 0
     }
