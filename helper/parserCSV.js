@@ -6,7 +6,7 @@ const arrOfArgs = ['banknote_authentication', 'iris']
 const parseCVStoJSO = (fileName) => {
     let result = []
         fs.createReadStream(fileName + '.csv')
-            .pipe(csv({headers: false}))
+            .pipe(csv())
             .on('data', (data) => result.push(data))
             .on('end', () => {
                 const convert = result.map(e => convertToNumber(e))
@@ -30,3 +30,4 @@ const convertToNumber = (anObject) => {
     }
     return anObject
 }
+
