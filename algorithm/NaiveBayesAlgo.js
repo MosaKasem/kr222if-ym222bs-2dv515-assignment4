@@ -16,6 +16,11 @@ const seperateByClass = (dataSet ,keyValue) => {
     return sorted
 }
 
+/**
+ * 
+ * @param {json file} file 
+ * @param {} id 
+ */
 const summarize = (file, id) => {
     const sorted = seperateByClass(file, id)
     let sum = []

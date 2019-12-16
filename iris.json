@@ -1,5 +1,6 @@
 [
     {
+<<<<<<< HEAD
         "0": "sepal_length",
         "1": "sepal_width",
         "2": "petal_length",
@@ -7,6 +8,8 @@
         "4": "species"
     },
     {
+=======
+>>>>>>> b72be2e03951e47a5e4c1f398f4ab080db3c6a2f
         "0": 5.1,
         "1": 3.5,
         "2": 1.4,
