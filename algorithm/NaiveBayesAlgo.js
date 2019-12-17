@@ -18,14 +18,12 @@ const seperateByClass = (dataSet ,keyValue) => {
 
 /**
  * 
- * @param {json file} file 
- * @param {} id 
+ * @param {array of arrays with objects inside} sorted 
  */
-const summarize = (file, id) => {
-    const sorted = seperateByClass(file, id)
+const summarize = (sorted) => {
     const arrayOfMeansValue = []
     sorted.forEach((flowerType => {
-        const currentFlowerType = flowerType[0][4]
+        const currentFlowerType = flowerType[0]['4']
         
         console.log('Flower Type: ', currentFlowerType);
         console.log('Flower Set Length: ', flowerType.length);
@@ -36,7 +34,9 @@ const summarize = (file, id) => {
     return arrayOfMeansValue
 }
 
-// const stdev()
+const stdev = () => {
+
+}
 
 const mean = (objectSet) => {
     let sum = []
@@ -51,5 +51,5 @@ const mean = (objectSet) => {
     }
     return sum
 }
-
-summarize(iris, '4')
+const sorted = seperateByClass(iris, '4')
+summarize(sorted)
