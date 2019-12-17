@@ -36,7 +36,7 @@ const summarize = (sorted) => {
 }
 
 const stdev = () => {
-
+  
 }
 
 const mean = (objectSet) => {
