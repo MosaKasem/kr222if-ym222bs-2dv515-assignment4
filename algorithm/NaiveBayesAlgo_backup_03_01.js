@@ -1,23 +1,7 @@
 const iris = require('../iris.json')
 const banknote_authentication = require('../banknote_authentication.json')
 
-class NaiveBayes{
-    constructor() {
-        this.trainingModel = []
-        this.predictions = []
-        this.cheatSheet = [] // label
-    }
-    fit(x, y) {
-        this.trainingModel = seperateByClass(x, y)
-        this.trainingModel.map((setOfData) => {
-            Object.values(setOfData).forEach((key, index) => {
-                this.cheatSheet.push(key[4])
-            })
-        })
-        console.log(this.cheatSheet)
-    }
-}
-
+const NaiveBayes = {}
 
 /**
  * keyValue is key name from the object: in this case, Movie or UserID
@@ -131,23 +115,8 @@ const calculate_mean = (objectSet) => {
     }
     return sum
 }
-
-const nb = new NaiveBayes()
-nb.fit(iris, "4")
-
-// const numbers = seperateByClass(iris, '4')
-// const std = iterate_and_calc_std(numbers)
+const numbers = seperateByClass(iris, '4')
+const std = iterate_and_calc_std(numbers)
 // const mean = iterate_and_calculate(numbers)
 // const numbers2 = iterate_and_calc_std(numbers)
 // console.log('numbers2: ', numbers2);
-
-module.exports = {
-    calculate_mean: calculate_mean,
-    iterate_by_index: iterate_by_index,
-    calculate_stdev: calculate_stdev,
-    flatten: flatten,
-    iterate_and_calc_std: iterate_and_calc_std,
-    iterate_and_calc_mean: iterate_and_calc_mean,
-    seperateByClass: seperateByClass,
-    NaiveBayes: NaiveBayes
-}
