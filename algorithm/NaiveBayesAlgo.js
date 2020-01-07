@@ -1,4 +1,5 @@
 const iris = require('../iris.json')
+const bnote = require('../banknote_authentication.json')
 const banknote_authentication = require('../banknote_authentication.json')
 
 class NaiveBayes{
@@ -12,13 +13,41 @@ class NaiveBayes{
         this.trainingModel.map((setOfData) => {
             Object.values(setOfData).forEach((key, index) => {
                 this.cheatSheet.push(key[4])
+                y = this.cheatSheet
             })
         })
-        console.log(this.cheatSheet)
+        this.trainingModel['mean'] = iterate_and_calc_mean(nb.trainingModel)
+        this.trainingModel['std'] = iterate_and_calc_std(nb.trainingModel)
+    }
+    predict(x) {
+        
     }
 }
 
-
+const iterate_and_calc_probability = (dataSet, mean, std) => {
+    let prob_result = []
+    dataSet.forEach((data) => {
+        const result = calculate_probability(data, mean, std)
+        prob_result.push(result)
+    })
+}
+const calculate_probability = (dataSet, mean, std) => {
+    const finalResult = []
+    console.log('std: ', std);
+    console.log('mean: ', mean);
+    for (let i = 0; i < 4; i++) {
+        Object.keys(dataSet).forEach(key => {
+            let exponent = Math.exp(-((dataSet[key][i] - mean[0][i])**2 / (2 * std[0][i]**2)))
+            let res = (1 / (Math.sqrt(2 * Math.PI) * std[0][i]) * exponent)
+            finalResult.push(res)
+        })
+    }
+    return finalResult
+}
+/**
+ * 	exponent = exp(-((x-mean)**2 / (2 * stdev**2 )))
+	return (1 / (sqrt(2 * pi) * stdev)) * exponent
+ */
 /**
  * keyValue is key name from the object: in this case, Movie or UserID
  * @param {*} keyValue
@@ -50,7 +79,7 @@ const iterate_and_calc_mean = (sorted) => {
         // arrayOfMeansValue.push({ [currentFlowerType]: meanResult })
         arrayOfMeansValue.push(meanResult)
     }))
-    console.table(arrayOfMeansValue);
+    // console.table(arrayOfMeansValue);
     return arrayOfMeansValue
 }
 
@@ -61,9 +90,9 @@ const iterate_and_calc_std = entireFlowerSet => {
         const avgSet = avg[index]
         stdResult.push(calculate_stdev(flowerSet, avgSet))
     })
-    console.table(stdResult)
+    return stdResult
 }
-
+// 50 st blommor
 const calculate_stdev = (flowerSet, mean) => {
     const resultforStd = []
     const resultFromIterator = iterate_by_index(flowerSet, mean)
@@ -134,6 +163,12 @@ const calculate_mean = (objectSet) => {
 
 const nb = new NaiveBayes()
 nb.fit(iris, "4")
+// const standardDeviation = iterate_and_calc_std(nb.trainingModel)
+// const meanValues = iterate_and_calc_mean(nb.trainingModel)
+// const probability = iterate_and_calc_probability(nb.trainingModel, meanValues, standardDeviation)
+// console.table(meanValues);
+// console.table(standardDeviation);
+
 
 // const numbers = seperateByClass(iris, '4')
 // const std = iterate_and_calc_std(numbers)

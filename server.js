@@ -16,6 +16,7 @@ const test = require('./algorithm/NaiveBayesAlgo')
 app.use('/', (req, res) => {
     const nb = new NaiveBayes()
     nb.fit(x, y)
+    
 })
 
 app.listen(PORT, () => {console.log('Established connection: ' + PORT)} )
