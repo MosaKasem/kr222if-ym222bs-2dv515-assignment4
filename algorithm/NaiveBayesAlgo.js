@@ -128,24 +128,6 @@ const iterate_by_index = (flowerSet, avg) => {
     return finalResult
 }
 
-// const calculate_stdev = (flowerSet, avg) => {
-//     const arrayOfAvg = avg[Object.keys(avg)] // extract the array
-//     const finalRes = []
-//     let total = 0
-//     // console.log(flowerSet[0][4])
-//     flowerSet.map((aFlower) => {
-
-//             Object.keys(aFlower).forEach((key) => {
-//                 console.log('aFlower: ', aFlower[key]);
-//                 if (typeof aFlower[key] === 'number') { // if number, apply
-//                     total += Math.pow(aFlower[key] - arrayOfAvg[key], 2) / flowerSet.length
-//                 }
-//             })
-
-//     })
-//     return Math.sqrt(total)
-// }
-
 const calculate_mean = (objectSet) => {
     let sum = []
     let total = 0
