@@ -6,21 +6,16 @@ class NaiveBayes{
     constructor() {
         this.trainingModel = []
         this.predictions = []
-        this.cheatSheet = [] // label
+        this.labels = []
     }
     fit(x, y) {
-        this.trainingModel = seperateByClass(x, y)
-        this.trainingModel.map((setOfData) => {
-            Object.values(setOfData).forEach((key, index) => {
-                this.cheatSheet.push(key[4])
-                y = this.cheatSheet
-            })
-        })
-        this.trainingModel['mean'] = iterate_and_calc_mean(nb.trainingModel)
-        this.trainingModel['std'] = iterate_and_calc_std(nb.trainingModel)
+        this.trainingModel = x
+        this.trainingModel['mean'] = iterate_and_calc_mean(x)
+        this.trainingModel['std'] = iterate_and_calc_std(x)
     }
     predict(x) {
-        
+        const res = iterate_and_calc_probability(x, this.trainingModel.mean, this.trainingModel.std)
+
     }
 }
 
@@ -30,17 +25,21 @@ const iterate_and_calc_probability = (dataSet, mean, std) => {
         const result = calculate_probability(data, mean, std)
         prob_result.push(result)
     })
+    return prob_result
 }
 const calculate_probability = (dataSet, mean, std) => {
-    const finalResult = []
-    console.log('std: ', std);
-    console.log('mean: ', mean);
+    const indexArray = []
     for (let i = 0; i < 4; i++) {
         Object.keys(dataSet).forEach(key => {
             let exponent = Math.exp(-((dataSet[key][i] - mean[0][i])**2 / (2 * std[0][i]**2)))
             let res = (1 / (Math.sqrt(2 * Math.PI) * std[0][i]) * exponent)
-            finalResult.push(res)
+            indexArray.push(res)
         })
+    }
+    var finalResult = [], size = dataSet.length;
+    finalResult.push(indexArray.splice(0, size));
+    while (indexArray.length > 0) {
+        finalResult.push(indexArray.splice(0, size));
     }
     return finalResult
 }
@@ -161,8 +160,21 @@ const calculate_mean = (objectSet) => {
     return sum
 }
 
+const theXandY = () => {
+    let x = seperateByClass(iris, '4')
+    let y = []
+    x.map((setOfData) => {
+        Object.values(setOfData).forEach((key, index) => {
+            y.push(key[4])
+        })
+    })
+    return {x, y}
+}
+const {x, y} = theXandY() // data and labels
+
 const nb = new NaiveBayes()
-nb.fit(iris, "4")
+nb.fit(x, y)
+nb.predict(x)
 // const standardDeviation = iterate_and_calc_std(nb.trainingModel)
 // const meanValues = iterate_and_calc_mean(nb.trainingModel)
 // const probability = iterate_and_calc_probability(nb.trainingModel, meanValues, standardDeviation)
