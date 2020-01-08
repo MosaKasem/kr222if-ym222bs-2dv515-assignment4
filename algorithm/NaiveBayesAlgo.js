@@ -9,40 +9,61 @@ class NaiveBayes{
         this.labels = []
     }
     fit(x, y) {
+        this.labels = y
         this.trainingModel = x
         this.trainingModel['mean'] = iterate_and_calc_mean(x)
         this.trainingModel['std'] = iterate_and_calc_std(x)
     }
     predict(x) {
         const res = iterate_and_calc_probability(x, this.trainingModel.mean, this.trainingModel.std)
-
+        
     }
 }
 
 const iterate_and_calc_probability = (dataSet, mean, std) => {
     let prob_result = []
-    dataSet.forEach((data) => {
-        const result = calculate_probability(data, mean, std)
+    dataSet.forEach((data, i) => {
+        const result = calculate_probability(data, mean[i], std[i])
         prob_result.push(result)
     })
     return prob_result
 }
 const calculate_probability = (dataSet, mean, std) => {
-    const indexArray = []
-    for (let i = 0; i < 4; i++) {
-        Object.keys(dataSet).forEach(key => {
-            let exponent = Math.exp(-((dataSet[key][i] - mean[0][i])**2 / (2 * std[0][i]**2)))
-            let res = (1 / (Math.sqrt(2 * Math.PI) * std[0][i]) * exponent)
-            indexArray.push(res)
+    let tmpArr = []
+    let endResult = []
+    // console.log('dataSet: ', dataSet);
+    Object.values(dataSet).forEach((val, i) => {
+        Object.keys(val).forEach(key => {
+            if (key !== '4') {
+                const exponent = Math.exp(-((val[key] - mean[key])**2 / (2 * std[key]**2)))
+                const res = (1 / (Math.sqrt(2 * Math.PI) * std[key]) * exponent)
+                tmpArr.push(res)
+            }
         })
-    }
-    var finalResult = [], size = dataSet.length;
-    finalResult.push(indexArray.splice(0, size));
-    while (indexArray.length > 0) {
-        finalResult.push(indexArray.splice(0, size));
-    }
-    return finalResult
+        const result = tmpArr.reduce((a, b) => a * b)
+        endResult.push(tmpArr)
+        endResult[i][4] = result
+        tmpArr = []
+    })
+    return endResult
+    // const indexArray = []
+    // for (let i = 0; i < 4; i++) {
+    //     Object.keys(dataSet).forEach(key => {
+    //         let exponent = Math.exp(-((dataSet[key][i] - mean[0][i])**2 / (2 * std[0][i]**2)))
+    //         let res = (1 / (Math.sqrt(2 * Math.PI) * std[0][i]) * exponent)
+    //         indexArray.push(res)
+    //     })
+    // }
+    // var finalResult = [], size = dataSet.length;
+    // finalResult.push(indexArray.splice(0, size));
+    // while (indexArray.length > 0) {
+    //     finalResult.push(indexArray.splice(0, size));
+    // }
+    // return finalResult
 }
+
+
+
 /**
  * 	exponent = exp(-((x-mean)**2 / (2 * stdev**2 )))
 	return (1 / (sqrt(2 * pi) * stdev)) * exponent
