@@ -5,7 +5,7 @@ const banknote_authentication = require('../banknote_authentication.json')
 class NaiveBayes{
     constructor() {
         this.trainingModel = []
-        this.predictions = []
+        // this.predictions = []
         this.labels = []
     }
     fit(x, y) {
@@ -15,19 +15,71 @@ class NaiveBayes{
         this.trainingModel['std'] = iterate_and_calc_std(x)
     }
     predict(x) {
-        const res = iterate_and_calc_probability(x, this.trainingModel.mean, this.trainingModel.std)
-        
+        const probability_score = iterate_and_calc_probability(x, this.trainingModel.mean, this.trainingModel.std)
+        const p_normalized = iterate_and_calc_p_norm(probability_score)
+        var merged = [].concat.apply([], p_normalized);
+        return merged
     }
+}
+
+const iterate_and_calc_p_norm = (dataSet) => {
+    const best = []
+    dataSet.forEach((data) => {
+        best.push(normalize(data))
+    })
+    return best
+}
+
+const normalize = (data) => {
+    const setosa = data[0]
+    const versicolor = data[1]
+    const virginica = data[2]
+    let tmpArr = []
+    let result = []
+    for (let i = 0; i < setosa.length; i++) {
+        total = setosa[i] + versicolor[i] + virginica[i]
+        tmpArr.push(setosa[i], versicolor[i], virginica[i])
+        const best = tmpArr.reduce(function(m, v) { // find best
+            return m > v ? m : v
+        })
+        let flowerType = tmpArr.indexOf(best)
+        if (flowerType === 0) {
+            flowerType = 'Iris-setosa'
+        }
+        if (flowerType === 1) {
+            flowerType = 'Iris-versicolor'
+        }
+        if (flowerType === 2) {
+            flowerType = 'Iris-virginica'
+        }
+        result.push(flowerType)
+        tmpArr = []
+    }
+    return result
 }
 
 const iterate_and_calc_probability = (dataSet, mean, std) => {
     let prob_result = []
-    dataSet.forEach((data, i) => {
-        const result = calculate_probability(data, mean[i], std[i])
-        prob_result.push(result)
+    dataSet.forEach((data) => {
+        const s = calculate_probability(data, mean[0], std[0])
+        const v = calculate_probability(data, mean[1], std[1])
+        const i = calculate_probability(data, mean[2], std[2])
+        prob_result.push([s, v, i])
     })
     return prob_result
 }
+
+const normalizeEverything = (s, v, i) => {
+
+}
+// const iterate_and_calc_probability = (dataSet, mean, std) => {
+//     let prob_result = []
+//     dataSet.forEach((data, i) => {
+//         const result = calculate_probability(data, mean[i], std[i])
+//         prob_result.push(result)
+//     })
+//     return prob_result
+// 
 const calculate_probability = (dataSet, mean, std) => {
     let tmpArr = []
     let endResult = []
@@ -41,8 +93,8 @@ const calculate_probability = (dataSet, mean, std) => {
             }
         })
         const result = tmpArr.reduce((a, b) => a * b)
-        endResult.push(tmpArr)
-        endResult[i][4] = result
+        // endResult.push(tmpArr)
+        endResult[i] = result
         tmpArr = []
     })
     return endResult
@@ -173,11 +225,23 @@ const theXandY = () => {
     })
     return {x, y}
 }
-const {x, y} = theXandY() // data and labels
+const accuracyScore = (predictions, y) => {
+    let c = 0
+    for (let i = 0; i < predictions.length; i++) {
+        if ( predictions[i] === y[i]) {
+            c++
+        }
+    }
+    return c / predictions.length
+}
 
+
+const {x, y} = theXandY() // data and labels
 const nb = new NaiveBayes()
 nb.fit(x, y)
-nb.predict(x)
+const predictions = nb.predict(x)
+const accuracyScoreResult = accuracyScore(predictions, y)
+console.log('accuracyScoreResult: ', accuracyScoreResult * 100);
 // const standardDeviation = iterate_and_calc_std(nb.trainingModel)
 // const meanValues = iterate_and_calc_mean(nb.trainingModel)
 // const probability = iterate_and_calc_probability(nb.trainingModel, meanValues, standardDeviation)
